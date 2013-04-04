@@ -1,0 +1,11 @@
+All non-Adobe assets acquired under public domain.
+
+images:
+http://opengameart.org/content/rockets
+
+font:
+http://www.ffonts.net/V-Dub.font
+
+sounds
+http://www.pdsounds.org/sounds/mouth_pop
+http://www.freesound.org/people/spukkin/sounds/70889/

@@ -1,0 +1,59 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no,width=device-width">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/index.css" />
+    <title>Adobe MAX</title>
+</head>
+<body style="background: #000; display: none">
+
+<div id="#game">
+    <div id="background" class="layer"></div>
+    <div id="enemySprites" class="layer"></div>
+
+    <div id="hero" ></div>
+
+    <div id="title" class="overlayContainer">
+        <div id="time">0:30</div>
+    </div>
+
+
+    <div id="hud" class="overlayContainer">
+        0<br/>
+        0/0
+    </div>
+
+
+    <div id="controls" class="layer">
+        <div id="touchSegment0" class="touchSegment"></div>
+        <div id="touchSegment1" class="touchSegment"></div>
+        <div id="compass"></div>
+        <div id="touch"></div>
+    </div>
+</div>
+
+    <div id="infoOverlay" class="overlayContainer">
+        <h1 id="greeting">WELCOME!</h1>
+        <p id="message" class="warning">Tap "PLAY" to begin</p>
+        <p id="instruction">Touch and drag to navigate through the Adobe Universe.  You have 30 seconds to collect as many <strong>Creative Cloud</strong> tools as possible.  The faster you collect the tools, the more points you'll earn!</p>
+        <br/><br/>
+        <button id="play">PLAY</button>
+    </div>
+
+
+<!-- THIS LINK JUST ADDED FOR ONLINE VERSION: http://tricedesigns.com/portfolio/phonegap_legends/ -->
+<!--
+<a href="http://www.tricedesigns.com/2013/03/22/phonegap-legends-a-sample-game-app/" target="_blank" style="position: absolute; bottom:10px; right:10px; background-color: #c00; border: 1px solid white; padding:10px; border-radius: 10px;">Learn How This Was Built</a>
+-->
+
+
+</body>
+
+
+<script src="js/raf.js"></script>
+<script src="cordova.js"></script>
+<script src="js/zepto.js"></script>
+<script src="js/index.js"></script>
+</html>
