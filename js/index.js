@@ -578,7 +578,7 @@ function updateScore() {
 
     if (time.active){
         var t_remaining = time.end - new Date().getTime();
-        gameState.score += (t_remaining/100) << 0;
+        gameState.score += (t_remaining/10) << 0;
         gameState.remaining --;
         updateHUD();
         if (gameState.remaining <= 0) {
@@ -644,12 +644,12 @@ function canPlayHTMLAudio() {
 function initAudio() {
     if ( isPhoneGap() ) {
         if (device.platform == "Android") {
-            pop = new Media("/android_asset/www/assets/sounds/pop.mp3");
-            gameover = new Media("/android_asset/www/assets/sounds/game_over.mp3");
+            pop = new Media("/android_asset/www/assets/sounds/pop.aiff");
+            gameover = new Media("/android_asset/www/assets/sounds/game_over.aiff");
             //bgLoop = new Media( "/android_asset/www/assets/sounds/115261__rap2h__1mi.wav", onSoundSuccess, onSoundError, onSoundStatus);
         } else {
-            pop = new Media("assets/sounds/pop.mp3");
-            gameover = new Media("assets/sounds/game_over.mp3");
+            pop = new Media("assets/sounds/pop.caf");
+            gameover = new Media("assets/sounds/game_over.caf");
             //bgLoop = new Media( "assets/sounds/115261__rap2h__1mi.wav", onSoundSuccess, onSoundError, onSoundStatus);
         }
 
