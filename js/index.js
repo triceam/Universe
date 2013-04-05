@@ -13,6 +13,8 @@ var renders = 0;
 
 var pop;
 var gameover;
+var playPop = false;
+
 var gameState = {
     score: 0,
     remaining: ENEMY_SPRITES_COUNT
@@ -219,6 +221,10 @@ function render(){
     detectCollisions( translate.x, translate.y );
     updateTime();
 
+    if ( playPop ) {
+        pop.play();
+        playPop = false;
+    }
 
     renders++;
 
@@ -430,7 +436,7 @@ Sprite.prototype.tapHandler = function ( event ) {
         this.hiding = true;
         this.$el.addClass("inactive");
         updateScore();
-        pop.play();
+        playPop = true;
     }
     //console.log ("tap")
     if ( event ){
