@@ -649,8 +649,8 @@ function initAudio() {
         }
 
         //this forces preloading the asset into memory
-        pop.play();
-        pop.pause();
+        //pop.play();
+        //pop.pause();
     }
     else {
         pop = document.createElement('audio');
