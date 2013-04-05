@@ -640,8 +640,15 @@ function initAudio() {
         }
     }
     else {
-        pop = $('<audio src="assets/sounds/pop.mp3" preload></a>').get(0);
-        gameover = $('<audio src="assets/sounds/game_over.mp3" preload></a>').get(0);
+        pop = document.createElement('audio');
+        pop.autoplay = false;
+        pop.preload = "auto";
+        pop.src = "assets/sounds/pop.mp3";
+
+        gameover = document.createElement('audio');
+        gameover.autoplay = false;
+        gameover.preload = "auto";
+        gameover.src = "assets/sounds/game_over.mp3";
     }
 }
 
