@@ -221,10 +221,10 @@ function render(){
     detectCollisions( translate.x, translate.y );
     updateTime();
 
-    if ( playPop ) {
+    /*if ( playPop ) {
         pop.play();
         playPop = false;
-    }
+    }*/
 
     renders++;
 
@@ -280,7 +280,7 @@ function formatTime(input) {
     var m = Math.floor(input/60);
     var s = input %60;
 
-    return m.toString(10) + ":" + (s<10 ? "0":"") + s.toFixed(2);
+    return m.toString(10) + ":" + (s<10 ? "0":"") + s.toFixed(1);
 }
 
 function Tile(col, row, target, css, model) {
@@ -436,7 +436,9 @@ Sprite.prototype.tapHandler = function ( event ) {
         this.hiding = true;
         this.$el.addClass("inactive");
         updateScore();
-        playPop = true;
+        //playPop = true;
+
+        pop.play();
     }
     //console.log ("tap")
     if ( event ){
@@ -623,6 +625,12 @@ function isPhoneGap() {
 }
 
 function canPlayHTMLAudio() {
+    var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
+
+    if (iOS) {
+        return false;
+    }
+
     var a = document.createElement('audio');
     return !!(a.canPlayType && a.canPlayType('audio/mpeg;').replace(/no/, ''));
 }
