@@ -439,7 +439,7 @@ Sprite.prototype.tapHandler = function ( event ) {
         this.hiding = true;
         this.$el.addClass("inactive");
         updateScore();
-        playPop = true;
+        //playPop = true;
     }
     //console.log ("tap")
     if ( event ){
@@ -650,7 +650,7 @@ function initAudio() {
 
         //this forces preloading the asset into memory
         pop.play();
-        pop.stop();
+        pop.pause();
     }
     else {
         pop = document.createElement('audio');
