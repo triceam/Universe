@@ -622,8 +622,13 @@ function isPhoneGap() {
         window.tinyHippos; //this is to cover phonegap emulator
 }
 
+function canPlayHTMLAudio() {
+    var a = document.createElement('audio');
+    return !!(a.canPlayType && a.canPlayType('audio/mpeg;').replace(/no/, ''));
+}
+
 function initAudio() {
-    if ( isPhoneGap() ) {
+    if ( isPhoneGap() && !canPlayHTMLAudio() ) {
         if (device.platform == "Android") {
             pop = new Media("/android_asset/www/assets/sounds/pop.mp3");
             gameover = new Media("/android_asset/www/assets/sounds/game_over.mp3");
