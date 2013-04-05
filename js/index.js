@@ -225,7 +225,12 @@ function render(){
         if ( pop.seekTo != undefined ) {
             pop.seekTo(0);
         }
-        pop.play();
+
+        //try asycn
+        setTimeout(function(){
+            pop.play();
+        }, 1);
+
         playPop = false;
     }
 
