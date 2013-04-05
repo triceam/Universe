@@ -221,10 +221,11 @@ function render(){
     detectCollisions( translate.x, translate.y );
     updateTime();
 
-    /*if ( playPop ) {
+    if ( playPop ) {
+        pop.pause();
         pop.play();
         playPop = false;
-    }*/
+    }
 
     renders++;
 
@@ -280,7 +281,7 @@ function formatTime(input) {
     var m = Math.floor(input/60);
     var s = input %60;
 
-    return m.toString(10) + ":" + (s<10 ? "0":"") + s.toFixed(1);
+    return m.toString(10) + ":" + (s<10 ? "0":"") + s.toFixed(0);
 }
 
 function Tile(col, row, target, css, model) {
@@ -436,9 +437,7 @@ Sprite.prototype.tapHandler = function ( event ) {
         this.hiding = true;
         this.$el.addClass("inactive");
         updateScore();
-        //playPop = true;
-
-        pop.play();
+        playPop = true;
     }
     //console.log ("tap")
     if ( event ){
@@ -636,7 +635,7 @@ function canPlayHTMLAudio() {
 }
 
 function initAudio() {
-    if ( isPhoneGap() && !canPlayHTMLAudio() ) {
+    if ( isPhoneGap() ) {
         if (device.platform == "Android") {
             pop = new Media("/android_asset/www/assets/sounds/pop.mp3");
             gameover = new Media("/android_asset/www/assets/sounds/game_over.mp3");
