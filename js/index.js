@@ -332,6 +332,18 @@ function Sprite(target, x, y, css) {
     this.hidden = false;
     this.scaleModifier = .005 + (.01 * Math.random());
 
+    var css=document.styleSheets[0]
+    var rules=css.cssRules;
+    for (var i=0; i<rules.length; i++){
+        if(rules[i].selectorText == ".sprite"){
+
+            this.width = parseInt( rules[i].style.width );
+            this.height = parseInt( rules[i].style.height );
+            break;
+        }
+    }
+
+
     var self = this;
     var tapHandler =  function(event){
         return self.tapHandler(event);
@@ -393,8 +405,8 @@ Sprite.prototype.hitTest = function ( _x, _y ) {
 
     if ( !(this.hiding || this.hidden) && time.active ) {
         tl = {x:x,y:y};
-        tr = {x:tl.x+this.$el.width(),y:tl.y};
-        bl = {x:tl.x,y:tl.y+this.$el.height()};
+        tr = {x:tl.x+this.width,y:tl.y};
+        bl = {x:tl.x,y:tl.y+this.height};
 
         for ( var i=0; i<points.length; i++) {
             var p = points[i];
@@ -405,7 +417,7 @@ Sprite.prototype.hitTest = function ( _x, _y ) {
                 tl.y <= hitY && bl.y >= hitY ) {
 
                 this.tapHandler();
-                break;
+                return;
             }
         }
     }
