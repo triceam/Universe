@@ -75,18 +75,6 @@ body {
     height:231px;
 }
 
-/*
-.cc{ background: url('../images/mnemonics/adobe_creative_cloud_icon_rgb_512px_no_shadow.png'); }
-.ae{ background: url('../images/mnemonics/after_effects_cs6_mnemonic_rgb_512px_no_shadow.png'); }
-.au{ background: url('../images/mnemonics/audition_cs6_mnemonic_rgb_512px_no_shadow.png'); }
-.br{ background: url('../images/mnemonics/bridge_cs6_mnemonic_rgb_512px_no_shadow.png'); }
-.dr{ background: url('../images/mnemonics/dreamweaver_cs6_mnemonic_rgb_512px_no_shadow.png'); }
-.fl{ background: url('../images/mnemonics/flash_professional_cs6_mnemonic_rgb_512px.png'); }
-.il{ background: url('../images/mnemonics/illustrator_cs6_mnemonic_rgb_512px_no_shadow.png'); }
-.id{ background: url('../images/mnemonics/indesign_cs6_mnemonic_rgb_512px_no_shadow.png'); }
-.ph{ background: url('../images/mnemonics/photoshop_cs6_mnemonic_rgb_512px_no_shadow.png'); }
-.pr{ background: url('../images/mnemonics/premiere_pro_cs6_mnemonic_rgb_512px_no_shadow.png'); }
-  */
 
 .cc{ background: url('../images/mnemonics/cc_icons_texture.png'); background-position:0px 0px;}
 .ae{ background: url('../images/mnemonics/cc_icons_texture.png'); background-position:480px 0px; }
@@ -100,26 +88,8 @@ body {
 
 
 
-#compass{
-    background: url('../images/compass_rose.png');
-    background-position:0px 0px;
-    width: 100px;
-    height: 100px;
-    position: fixed;
-    top:0px;
-    left:0px;
-}
 #touch{
     background: url('../images/touch.png');
-    background-position:0px 0px;
-    width: 100px;
-    height: 100px;
-    position: fixed;
-    top:0px;
-    left:0px;
-}
-.touchSegment{
-    background: url('../images/touch_segment.png');
     background-position:0px 0px;
     width: 100px;
     height: 100px;

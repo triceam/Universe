@@ -51,33 +51,12 @@ var hero = {
     direction:0
 };
 
-var compass = {
-    $el:undefined,
-    el:undefined,
-    w:100,
-    h:100,
-    visible: false
-}
-
 var touch = {
     $el:undefined,
     el:undefined,
     w:100,
-    h:100
-}
-
-var touchSegment0 = {
-    $el:undefined,
-    el:undefined,
-    w:100,
-    h:100
-}
-
-var touchSegment1 = {
-    $el:undefined,
-    el:undefined,
-    w:100,
-    h:100
+    h:100,
+    active:false
 }
 
 var input = {
@@ -167,13 +146,12 @@ function render(){
             input.distance = 0;
         }
     }
+        translate.x += Math.sin( input.angle ) * Math.floor(input.distance);
+        translate.y += Math.cos( input.angle ) * Math.floor(input.distance);
 
+        translate.x = Math.floor(translate.x);
+        translate.y = Math.floor(translate.y);
 
-    translate.x += Math.sin( input.angle ) * Math.floor(input.distance);
-    translate.y += Math.cos( input.angle ) * Math.floor(input.distance);
-
-    translate.x = Math.floor(translate.x);
-    translate.y = Math.floor(translate.y);
 
 
     for (var x=0; x<world.tiles.length; x++) {
@@ -206,7 +184,6 @@ function render(){
         else if (!sprite.hidden){
             sprite.scale += .03;
         }
-
         sprite.updatePosition( translate.x, translate.y );
     }
 
@@ -224,33 +201,22 @@ function render(){
     }
 
 
-    if ( compass.visible ){
-        //console.log( (input.start.x-(compass.w/2)), (input.start.y-(compass.h/2)))
-        var style = "translate3d("+ (input.start.x-(compass.w/2)) +'px,'+ (input.start.y-(compass.h/2)) +"px,0px)";
-        //console.log(style);
-        compass.el.style["-webkit-transform"]= style;
+    if ( touch.visible ){
 
-        style = "translate3d("+ (input.current.x-(touch.w/2)) +'px,'+ (input.current.y-(touch.h/2)) +"px,0px)";
+        var style = "translate3d("+ (input.current.x-(touch.w/2)) +'px,'+ (input.current.y-(touch.h/2)) +"px,0px)";
         touch.el.style["-webkit-transform"]= style;
 
-        var segmentX = (input.current.x + Math.sin(input.angle)*(input.distance*10/3) )-(touch.w/2);
-        var segmentY = (input.current.y + Math.cos(input.angle)*(input.distance*10/3) )-(touch.h/2);
-        style = "translate3d("+ segmentX +'px,'+ segmentY +"px,0px)";
-        touchSegment0.el.style["-webkit-transform"]= style;
-
-         segmentX = (input.current.x + Math.sin(input.angle)*(input.distance*20/3) )-(touch.w/2);
-         segmentY = (input.current.y + Math.cos(input.angle)*(input.distance*20/3) )-(touch.h/2);
-         style = "translate3d("+ segmentX +'px,'+ segmentY +"px,0px)";
-         touchSegment1.el.style["-webkit-transform"]= style;
     }
     else {
         //just render them offscreen
-        compass.el.style["-webkit-transform"]="translate3d(-200px,-200px,0px)";
         touch.el.style["-webkit-transform"]="translate3d(-200px,-200px,0px)";
-        touchSegment0.el.style["-webkit-transform"]="translate3d(-200px,-200px,0px)";
-        touchSegment1.el.style["-webkit-transform"]="translate3d(-200px,-200px,0px)";
     }
 
+
+    var centerX = $win.width()/2;
+    var centerY = $win.height()/2;
+
+    detectCollisions( translate.x, translate.y );
     updateTime();
 
 
@@ -259,6 +225,24 @@ function render(){
     window.requestAnimationFrame(function() {
         render()
     } );
+}
+
+function detectCollisions( translateX, translateY ) {
+
+    var centerPoint = {
+        x:$win.width()/2,
+        y:$win.height()/2
+    }
+
+    var sprite;
+    for ( var x=0; x< enemySprites.sprites.length; x++) {
+        sprite = enemySprites.sprites[x];
+
+        if ( !(sprite.hiding || sprite.hidden) && time.active ) {
+
+            sprite.hitTest(centerPoint.x-translateX, centerPoint.y-translateY);
+        }
+    }
 }
 
 function updateTime() {
@@ -388,6 +372,45 @@ Sprite.prototype.updatePosition = function ( _x, _y ) {
     }
 }
 
+Sprite.prototype.hitTest = function ( _x, _y ) {
+
+    var size = SPRITES_WORLD_SIZE;
+    var x = this.x;
+    var y = this.y;
+
+    x = ((x-500).mod(size));
+    y = ((y-500).mod(size));
+
+
+
+    var points = [{x:0, y:0},
+        {x:0, y:45},
+        {x:0, y:-45},
+        {x:45, y:0},
+        {x:-45, y:0} ]
+
+    var tl, tr, bl, activePoint, hitX, hitY;
+
+    if ( !(this.hiding || this.hidden) && time.active ) {
+        tl = {x:x,y:y};
+        tr = {x:tl.x+this.$el.width(),y:tl.y};
+        bl = {x:tl.x,y:tl.y+this.$el.height()};
+
+        for ( var i=0; i<points.length; i++) {
+            var p = points[i];
+            hitX = ((_x).mod(size))+p.x;
+            hitY = ((_y).mod(size))+p.y;
+
+            if ( tl.x <= hitX && tr.x >= hitX &&
+                tl.y <= hitY && bl.y >= hitY ) {
+
+                this.tapHandler();
+                break;
+            }
+        }
+    }
+}
+
 
 Sprite.prototype.tapHandler = function ( event ) {
 
@@ -398,8 +421,10 @@ Sprite.prototype.tapHandler = function ( event ) {
         pop.play();
     }
     //console.log ("tap")
-    event.preventDefault();
-    event.stopPropagation();
+    if ( event ){
+        event.preventDefault();
+        event.stopPropagation();
+    }
     return false;
 
 }
@@ -416,15 +441,15 @@ function onTouchStart( event ) {
 
     input.active = true;
     input.start = {
-        x: event.pageX,
-        y: event.pageY
+        x: $win.width()/2,
+        y: $win.height()/2
     }
     input.current = {
         x: event.pageX,
         y: event.pageY
     }
     calculateInputTransform();
-    compass.visible = true;
+    touch.visible = true;
 
     document.removeEventListener( TOUCH_START, onTouchStart );
     document.addEventListener( TOUCH_MOVE, onTouchMove );
@@ -469,7 +494,7 @@ function onTouchEnd( event ) {
     }
     calculateInputTransform(false);
     //resetHero();
-    compass.visible = false;
+    touch.visible = false;
 
     document.addEventListener( TOUCH_START, onTouchStart );
     document.removeEventListener( TOUCH_MOVE, onTouchMove );
@@ -621,14 +646,8 @@ function init(event) {
     hero.$el = $("#hero");
     hero.el = hero.$el.get(0);
 
-    compass.$el = $("#compass");
-    compass.el = compass.$el.get(0);
     touch.$el = $("#touch");
     touch.el = touch.$el.get(0);
-    touchSegment0.$el = $("#touchSegment0");
-    touchSegment0.el = touchSegment0.$el.get(0);
-    touchSegment1.$el = $("#touchSegment1");
-    touchSegment1.el = touchSegment1.$el.get(0);
 
     if ($win.width() > MIN_STYLE_SIZE || $win.height() > MIN_STYLE_SIZE) {
         $(".overlayContainer").addClass("large");
