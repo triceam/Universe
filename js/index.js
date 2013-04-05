@@ -439,7 +439,7 @@ Sprite.prototype.tapHandler = function ( event ) {
         this.hiding = true;
         this.$el.addClass("inactive");
         updateScore();
-        //playPop = true;
+        playPop = true;
     }
     //console.log ("tap")
     if ( event ){
