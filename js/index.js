@@ -222,7 +222,9 @@ function render(){
     updateTime();
 
     if ( playPop ) {
-        pop.pause();
+        if ( pop.seekTo != undefined ) {
+            pop.seekTo(0);
+        }
         pop.play();
         playPop = false;
     }
@@ -645,6 +647,10 @@ function initAudio() {
             gameover = new Media("assets/sounds/game_over.mp3");
             //bgLoop = new Media( "assets/sounds/115261__rap2h__1mi.wav", onSoundSuccess, onSoundError, onSoundStatus);
         }
+
+        //this forces preloading the asset into memory
+        pop.play();
+        pop.stop();
     }
     else {
         pop = document.createElement('audio');
