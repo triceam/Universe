@@ -346,7 +346,7 @@ function Sprite(target, x, y, css) {
     this.hidden = false;
     this.scaleModifier = .005 + (.01 * Math.random());
 
-    var css=document.styleSheets[0]
+    var css=document.styleSheets[0];
     var rules=css.cssRules;
     for (var i=0; i<rules.length; i++){
         if(rules[i].selectorText == ".sprite"){
@@ -377,7 +377,10 @@ Sprite.prototype.updatePosition = function ( _x, _y ) {
     x = (x.mod(size)) - 500;
     y = (y.mod(size)) - 500;
 
-    if (this.lastX != x || this.lastY != y || this.scale != this.lastScale) {
+    if (this.hidden) {
+        this.el.style["-webkit-transform"] = "translate3d(-500px,-500px,0px)";
+    }
+    else if (this.lastX != x || this.lastY != y || this.scale != this.lastScale) {
         this.el.style["-webkit-transform"]="translate3d("+ x +'px,'+ y +"px,0px) " + (this.scale != 1 ? "scale("+this.scale+")" : "");
         this.lastX = x;
         this.lastY = y;
@@ -387,7 +390,7 @@ Sprite.prototype.updatePosition = function ( _x, _y ) {
     if ( this.hiding && !this.hidden ) {
         this.opacity -= .07;
         if ( this.opacity <= 0 ){
-            this.$el.addClass("hidden");
+            //this.$el.addClass("hidden");
             this.hiding = false;
             this.hidden = true;
         }
@@ -644,8 +647,8 @@ function canPlayHTMLAudio() {
 function initAudio() {
     if ( isPhoneGap() ) {
         if (device.platform == "Android") {
-            pop = new Media("/android_asset/www/assets/sounds/pop.aiff");
-            gameover = new Media("/android_asset/www/assets/sounds/game_over.aiff");
+            pop = new Media("/android_asset/www/assets/sounds/pop.mp3");
+            gameover = new Media("/android_asset/www/assets/sounds/game_over.mp3");
             //bgLoop = new Media( "/android_asset/www/assets/sounds/115261__rap2h__1mi.wav", onSoundSuccess, onSoundError, onSoundStatus);
         } else {
             pop = new Media("assets/sounds/pop.caf");
