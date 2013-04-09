@@ -458,7 +458,7 @@ Sprite.prototype.hitTest = function ( _x, _y ) {
 
     var tl, tr, bl, activePoint, hitX, hitY;
 
-    var offset = 500;
+    var offset = 200;
 
     if ( !(this.hiding || this.hidden) && time.active ) {
         if ( x > SPRITES_WORLD_SIZE - offset) {
