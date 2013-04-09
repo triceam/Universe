@@ -430,11 +430,11 @@ Sprite.prototype.hitTest = function ( _x, _y ) {
     var x = this.x;
     var y = this.y;
 
-    _x = (_x-(x-500)).mod(size);
-    _y = (_y-(y-500)).mod(size);
+    _x = (_x).mod(size);
+    _y = (_y).mod(size);
 
-    //x = ((x-500).mod(size));
-    //y = ((y-500).mod(size));
+    x = ((x-500).mod(size));
+    y = ((y-500).mod(size));
 
     //if it is too close to the edge, translate the position, so we don't get weird geometry wrapping, causing missed hits
     /*if ( SPRITES_WORLD_SIZE - x <= this.width ) {
@@ -459,7 +459,7 @@ Sprite.prototype.hitTest = function ( _x, _y ) {
     var tl, tr, bl, activePoint, hitX, hitY;
 
     if ( !(this.hiding || this.hidden) && time.active ) {
-        tl = {x:0,y:0};
+        tl = {x:x,y:y};
         tr = {x:tl.x+this.width,y:tl.y};
         bl = {x:tl.x,y:tl.y+this.height};
 
@@ -467,6 +467,7 @@ Sprite.prototype.hitTest = function ( _x, _y ) {
             var p = points[i];
             hitX = (_x+p.x);
             hitY = (_y+p.y);
+
 
             if ( tl.x <= hitX && tr.x >= hitX &&
                 tl.y <= hitY && bl.y >= hitY ) {
