@@ -175,7 +175,7 @@ function render(){
 
         sprite.x += Math.sin(sprite.direction) * 2;
         sprite.y += Math.cos(sprite.direction) * 2;
-        sprite.normalizePosition();
+        //sprite.normalizePosition();
 
         if (!sprite.hiding) {
             if ( sprite.scale > 1 || sprite.scale < .65){
@@ -405,7 +405,7 @@ Sprite.prototype.updatePosition = function ( _x, _y ) {
     }
 }
 
-
+         /*
 Sprite.prototype.normalizePosition = function () {
 
     this.x = this.x.mod(SPRITES_WORLD_SIZE);
@@ -417,7 +417,7 @@ Sprite.prototype.normalizePosition = function () {
     if ( this.y < 0) {
         this.y = SPRITES_WORLD_SIZE - this.y;
     }
-}
+}      */
 
 Sprite.prototype.hitTest = function ( _x, _y ) {
 
@@ -433,8 +433,8 @@ Sprite.prototype.hitTest = function ( _x, _y ) {
     _x = (_x-(x-500)).mod(size);
     _y = (_y-(y-500)).mod(size);
 
-    x = ((x-500).mod(size));
-    y = ((y-500).mod(size));
+    //x = ((x-500).mod(size));
+    //y = ((y-500).mod(size));
 
     //if it is too close to the edge, translate the position, so we don't get weird geometry wrapping, causing missed hits
     /*if ( SPRITES_WORLD_SIZE - x <= this.width ) {
