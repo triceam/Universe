@@ -175,6 +175,7 @@ function render(){
 
         sprite.x += Math.sin(sprite.direction) * 2;
         sprite.y += Math.cos(sprite.direction) * 2;
+        sprite.normalizePosition();
 
         if (!sprite.hiding) {
             if ( sprite.scale > 1 || sprite.scale < .65){
@@ -368,6 +369,9 @@ function Sprite(target, x, y, css) {
     $(target).append( this.$el );
 }
 
+
+
+
 Sprite.prototype.updatePosition = function ( _x, _y ) {
 
     var size = SPRITES_WORLD_SIZE;
@@ -401,15 +405,49 @@ Sprite.prototype.updatePosition = function ( _x, _y ) {
     }
 }
 
+
+Sprite.prototype.normalizePosition = function () {
+
+    this.x = this.x.mod(SPRITES_WORLD_SIZE);
+    this.y = this.y.mod(SPRITES_WORLD_SIZE);
+
+    if ( this.x < 0) {
+        this.x = SPRITES_WORLD_SIZE - this.x;
+    }
+    if ( this.y < 0) {
+        this.y = SPRITES_WORLD_SIZE - this.y;
+    }
+}
+
 Sprite.prototype.hitTest = function ( _x, _y ) {
+
+    if (this.hiding || this.hidden) {
+        return false;
+    }
+
 
     var size = SPRITES_WORLD_SIZE;
     var x = this.x;
     var y = this.y;
 
+    _x = (_x-(x-500)).mod(size);
+    _y = (_y-(y-500)).mod(size);
+
     x = ((x-500).mod(size));
     y = ((y-500).mod(size));
 
+    //if it is too close to the edge, translate the position, so we don't get weird geometry wrapping, causing missed hits
+    /*if ( SPRITES_WORLD_SIZE - x <= this.width ) {
+        x += this.width;
+        _x += this.width;
+    }
+    if ( SPRITES_WORLD_SIZE - y <= this.width ) {
+        y += this.width;
+        _y += this.width;
+    }  */
+
+    //console.log( _x, _y );
+    //if( Math.abs(x) <=100 )
 
 
     var points = [{x:0, y:0},
@@ -421,14 +459,14 @@ Sprite.prototype.hitTest = function ( _x, _y ) {
     var tl, tr, bl, activePoint, hitX, hitY;
 
     if ( !(this.hiding || this.hidden) && time.active ) {
-        tl = {x:x,y:y};
+        tl = {x:0,y:0};
         tr = {x:tl.x+this.width,y:tl.y};
         bl = {x:tl.x,y:tl.y+this.height};
 
         for ( var i=0; i<points.length; i++) {
             var p = points[i];
-            hitX = ((_x).mod(size))+p.x;
-            hitY = ((_y).mod(size))+p.y;
+            hitX = (_x+p.x);
+            hitY = (_y+p.y);
 
             if ( tl.x <= hitX && tr.x >= hitX &&
                 tl.y <= hitY && bl.y >= hitY ) {
@@ -443,7 +481,7 @@ Sprite.prototype.hitTest = function ( _x, _y ) {
 
 Sprite.prototype.tapHandler = function ( event ) {
 
-    if ( !this.hiding ){
+    if ( !this.hiding && !this.hidden){
         this.hiding = true;
         this.$el.addClass("inactive");
         updateScore();
