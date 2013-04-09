@@ -458,15 +458,25 @@ Sprite.prototype.hitTest = function ( _x, _y ) {
 
     var tl, tr, bl, activePoint, hitX, hitY;
 
+    var offset = 500;
+
     if ( !(this.hiding || this.hidden) && time.active ) {
+        if ( x > SPRITES_WORLD_SIZE - offset) {
+            x -= offset;
+            _x -= offset;
+        }
+        if ( y > SPRITES_WORLD_SIZE - offset) {
+            y -= offset;
+            _y -= offset;
+        }
         tl = {x:x,y:y};
         tr = {x:tl.x+this.width,y:tl.y};
         bl = {x:tl.x,y:tl.y+this.height};
 
         for ( var i=0; i<points.length; i++) {
             var p = points[i];
-            hitX = (_x+p.x);
-            hitY = (_y+p.y);
+            hitX = (_x+p.x).mod(size);
+            hitY = (_y+p.y).mod(size);
 
 
             if ( tl.x <= hitX && tr.x >= hitX &&
